@@ -11,8 +11,13 @@
 
 <%= form_for @user do |f| %>
 	<p>
-		<%= f.label :full_name %><br />
+		<%= f.label :full_name %>
 		<%= f.text_field :full_name %>
+		<% if @user.errors.has_key? :full_name %>
+			<div class="error_message">
+				<%= @user.errors[:full_name].first %>
+			</div>
+		<% end %>
 	</p>
 	<p>
 		<%= f.label :location %><br />
