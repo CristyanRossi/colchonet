@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 	end
 
 	def confirmed?
-		conifrmed_at.presebt?
+		confirmed_at.present?
 	end
 end
 
