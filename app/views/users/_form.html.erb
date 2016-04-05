@@ -1,11 +1,12 @@
 <% if @user.errors.any? %>
 	<div id="error_explanation">
-		<h2>Infelizmente não foi possível completar a ação pois o formulário possui os seguintes erros:</h2>
+		<h2><%= t  'general.form_error' %></h2>
 		<ul>
 			<% @user.errors.full_messages.each do |message| %>
 			<li><%= message %></li>
-			<% end %>
+			<3% end %>
 		</ul>
+		<% end %>
 	</div>
 <% end %>
 
