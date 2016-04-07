@@ -3,4 +3,40 @@ class UserSession
 
 	attr_accessor :email, :password
 	validates_presence_of :email, :password
+
+	def new
+		@user_session = UserSession.new(session)
+	end
+
+	def create
+		@user_session = UseSession.new(session,
+											params[:user_session])
+		if @user_session.authenticate!
+			redirect_to root_path, notice: t('flash.notice.signed_in')
+		else
+			render :new
+		end
+	end
+
+	def destroy
+	end
+
+	def initialize(session, attributes={})
+		@session = session
+		@email = attributes[:email]
+		@password = attributes[:password]
+	end
+
+	def authenticate!
+		user = User.authenticate(@email, @password)
+
+		if user.present?
+			store(user)
+		else
+			errors.add(:base, :invalid_login)
+			false
+		end
+
+	end
+
 end
