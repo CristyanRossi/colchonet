@@ -1,16 +1,12 @@
-class UserSession
-	include ActiveModel::Model
-
-	attr_accessor :email, :password
-	validates_presence_of :email, :password
+class UserSessionsController < ApplicationController
 
 	def new
 		@user_session = UserSession.new(session)
 	end
 
 	def create
-		@user_session = UseSession.new(session,
-											params[:user_session])
+		@user_session =UserSession.new(session,
+		 									params[:user_session])
 		if @user_session.authenticate!
 			redirect_to root_path, notice: t('flash.notice.signed_in')
 		else
@@ -24,7 +20,7 @@ class UserSession
 	def initialize(session, attributes={})
 		@session = session
 		@email = attributes[:email]
-		@password = attributes[:password]
+		@password =attributes[:password]
 	end
 
 	def authenticate!
@@ -42,4 +38,5 @@ class UserSession
 	def store(user)
 		@session[:user_id] = user.id
 	end
+
 end
