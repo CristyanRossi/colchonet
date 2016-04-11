@@ -36,7 +36,6 @@ class UserSession
 			errors.add(:base, :invalid_login)
 			false
 		end
-
 	end
 
 	def store(user)
