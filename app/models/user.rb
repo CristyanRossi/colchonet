@@ -36,7 +36,5 @@ class User < ActiveRecord::Base
 	scope :most_recent, -> { order('created_at DESC') }
 	scope :from_sampa, -> { where(location: 'São Paulo') }
 	scope :from_sts, -> { where(location: 'Santos') }
-
-	scope :from, ->(location) {where(location: location) }
 end
 
