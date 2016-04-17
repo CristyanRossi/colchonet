@@ -1,4 +1,6 @@
 class UserSessionsController < ApplicationController
+	before_action :require_no_authentication, only: [:new, :create]
+	before_action :can_change, only: [:edit, :update]
 
 	def new
 		@user_session = UserSession.new(session)
@@ -12,31 +14,6 @@ class UserSessionsController < ApplicationController
 		else
 			render :new
 		end
-	end
-
-	def destroy
-	end
-
-	def initialize(session, attributes={})
-		@session = session
-		@email = attributes[:email]
-		@password =attributes[:password]
-	end
-
-	def authenticate!
-		user = User.authenticate(@email, @password)
-
-		if user.present?
-			store(user)
-		else
-			errors.add(:base, :invalid_login)
-			false
-		end
-
-	end
-
-	def store(user)
-		@session[:user_id] = user.id
 	end
 
 	def destroy
