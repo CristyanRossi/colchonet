@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :set_room, only: [:show]
+  before_action :set_users_room, only: [:edit,:update, :destroy]
 
   before_action :require_no_authentication,
     only: [:new, :edit, :create, :update, :destroy]
@@ -7,7 +8,7 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
+    @rooms = Room.most_recent
   end
 
   # GET /rooms/1
@@ -17,7 +18,7 @@ class RoomsController < ApplicationController
 
   # GET /rooms/new
   def new
-    @room = Room.new
+     @room = current_user.rooms.build
   end
 
   # GET /rooms/1/edit
@@ -27,14 +28,13 @@ class RoomsController < ApplicationController
   # POST /rooms
   # POST /rooms.json
   def create
-    @room = Room.new(room_params)
+     @room = current_user.rooms.build(room_params)
 
-    respond_to do |format|
       if @room.save
         redirect_to @room, notice: t('flash.notice.room_created')
       else
         render :new
-       end
+      end
     end
   end
 
@@ -62,6 +62,10 @@ class RoomsController < ApplicationController
     def set_room
       @room = Room.find(params[:id])
     end
+
+  def set_users_room
+    @room = current_user.rooms.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def room_params
