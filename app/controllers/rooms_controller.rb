@@ -12,6 +12,10 @@ class RoomsController < ApplicationController
   end
 
   def show
+    if user_signed_in?
+      @user_review = @room.reviews.
+        find_or_initialize_by(user_id: current_user.id)
+    end
   end
 
   def new
