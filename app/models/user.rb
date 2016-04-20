@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
 	has_many :reviews, dependent: :destroy
 	has_many :rooms, dependent: :destroy
+	has_many :reviewed_rooms, through: :reviews, source: :room
 
 	scope :confirmed, -> {where.not(confirmed_at: nil) }
 
@@ -34,10 +35,5 @@ class User < ActiveRecord::Base
 			try(:authenticate, password)
 	end
 
-	# encoding: utf-8
-
-	scope :most_recent, -> { order('created_at DESC') }
-	scope :from_sampa, -> { where(location: 'São Paulo') }
-	scope :from_sts, -> { where(location: 'Santos') }
 end
 
