@@ -1,8 +1,12 @@
 class Room < ActiveRecord::Base
+	extend FriendlyId
+
 	has_many :reviews, dependent: :destroy
 
 	belongs_to :user
-	validates_presence_of :title, :location, :description
+	validates_presence_of :title, :location, :description, :slug
+
+	friendly_id :title, use: [:slugged, :history]
 
   	def self.search(query)
 		    if query.present?
