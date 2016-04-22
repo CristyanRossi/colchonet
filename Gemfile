@@ -31,6 +31,8 @@ gem 'friendly_id', '~> 5.1.0'
 
 gem 'kaminari'
 
+gem 'rails_12factor'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
