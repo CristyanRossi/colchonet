@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  PER_PAGE = 10
 
   before_action :set_room, only: [:show]
   before_action :set_users_room, only: [:edit,:update, :destroy]
@@ -7,13 +8,15 @@ class RoomsController < ApplicationController
     only: [:new, :edit, :create, :update, :destroy]
 
 
-  def index
+ def index
     @search_query = params[:q]
 
-    room = Room.search(@search_query).most_recent
-    @rooms = Room.map do |room|
-      RoomPresenter.new(room, self, false)
-    end
+    rooms = Room.search(@search_query).
+      most_recent.
+      page(params[:page]).
+      per(PER_PAGE)
+
+    @rooms = RoomCollectionPresenter.new(rooms, self)
   end
 
   def show
